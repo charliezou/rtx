@@ -1,6 +1,5 @@
 librosa==0.10.2
-scikit-learn==1.4.2
-PyQt5==5.15.9
-numpy==1.26.0
 python-dotenv==1.0.0
 fastdtw==0.3.4
+wave
+noisereduce

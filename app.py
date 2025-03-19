@@ -11,6 +11,7 @@ from PyQt5.QtCore import Qt
 from database import VoiceCardDB
 from fastdtw import fastdtw
 from scipy.spatial.distance import euclidean
+import wave
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -70,13 +71,7 @@ class MainWindow(QMainWindow):
 
         # 卡片网格
         self.scroll_area = QScrollArea()
-        """
-        self.card_container = QWidget()
-        self.card_layout = QGridLayout(self.card_container)
-        self.scroll_area.setWidgetResizable(True)
-        self.scroll_area.setWidget(self.card_container)
-        card_panel.addWidget(self.scroll_area)
-        """
+        
         # 候选词列表
         self.card_list = QListWidget()
         self.card_list.itemDoubleClicked.connect(self.confirm_delete_card)
@@ -181,8 +176,16 @@ class MainWindow(QMainWindow):
         
         # 保存录音文件
         audio_data = np.frombuffer(b''.join(self.frames), dtype=np.int16)
-        self.current_recording_path = f'recordings/{self.card_name_input.text()}_{datetime.now().strftime("%Y%m%d%H%M%S")}.wav'
-        
+        self.current_recording_path = f'recordings/{self.card_name_input.text()}.wav'
+
+        # 使用wave模块保存为WAV文件
+        wf = wave.open(self.current_recording_path, 'wb')
+        wf.setnchannels(self.channels)
+        wf.setsampwidth(self.audio.get_sample_size(self.format))
+        wf.setframerate(self.rate)
+        wf.writeframes(b''.join(self.frames))
+        wf.close()
+       
         # 提取声学特征
         y = audio_data.astype(np.float32) / 32768.0
         
@@ -220,15 +223,15 @@ class MainWindow(QMainWindow):
         
         # 获取数据库所有语音卡
         candidates = []
-        min_db = -1
+        msx_sim = 0
         best_match = None
         
         # 计算与每个语音卡的DTW距离
         for card in self.db.get_all_voice_cards():
             similarity = self.calculate_similarity(mfcc.T, card['mfcc_features'].T)
             
-            if similarity > min_db:
-                min_db = similarity
+            if similarity > msx_sim:
+                msx_sim = similarity
                 best_match = card
             candidates.append((card['name'], similarity))
         
@@ -241,7 +244,7 @@ class MainWindow(QMainWindow):
         self.db.log_recognition(mfcc)
         
         # 显示识别结果
-        if best_match and min_db < 75:
+        if best_match and msx_sim > 75:
             self.status_label.setText(f'识别结果: {best_match["name"]}')
         else:
             self.status_label.setText('未找到匹配，请手动选择')
@@ -355,6 +358,34 @@ class MainWindow(QMainWindow):
         
         painter.end()
         self.waveform_label.setPixmap(pixmap)
+
+    # --------------------------
+    # 步骤3：静音检测 (基于能量阈值)
+    # --------------------------
+    def detect_silence(self, y, top_db=25, frame_length=2048, hop_length=512):
+        """
+        检测非静音区域
+        :param top_db: 低于该阈值视为静音（分贝）
+        :return: 有效音频段的起始和结束索引
+        """
+        # 计算分贝值
+        rms = librosa.feature.rms(
+            y=y,
+            frame_length=frame_length,
+            hop_length=hop_length
+        )
+        
+        # 转换为分贝
+        db = librosa.amplitude_to_db(rms, ref=np.max)
+        
+        # 检测非静音区域
+        non_silent = librosa.effects.split(
+            y,
+            top_db=top_db,
+            frame_length=frame_length,
+            hop_length=hop_length
+        )
+        return non_silent
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
