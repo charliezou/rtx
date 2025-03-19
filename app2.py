@@ -9,7 +9,7 @@ import noisereduce as nr  # 需要单独安装的降噪库
 # --------------------------
 def load_audio(path, sr=16000):
     """加载音频并统一采样率"""
-    current_recording_path = f'recordings/喝茶.wav'
+    current_recording_path = f'recordings/吃饭.wav'
     y, _ = librosa.load(current_recording_path, sr=sr)
     return y
 
