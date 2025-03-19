@@ -1,0 +1,41 @@
+/* macOS风格控件样式表 */
+QWidget#MainWidget {
+    background: rgba(245, 245, 245, 0.9);
+    border-radius: 10px;
+}
+
+QListWidget {
+    background: transparent;
+    border: none;
+    font-family: -apple-system;
+    font-size: 14px;
+}
+
+QListWidget::item {
+    padding: 12px 20px;
+    border-radius: 8px;
+    margin: 4px 8px;
+}
+
+QListWidget::item:selected {
+    background: #007AFF;
+    color: white;
+}
+
+.macOSButton {
+    background: linear-gradient(to bottom, #F6F6F6, #EBEBEB);
+    border: 1px solid #D0D0D0;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-family: -apple-system;
+    color: #1F1F1F;
+}
+
+.macOSButton:hover {
+    background: linear-gradient(to bottom, #FFFFFF, #F5F5F5);
+    border-color: #A8A8A8;
+}
+
+.macOSButton:pressed {
+    background: linear-gradient(to bottom, #EBEBEB, #E0E0E0);
+}
