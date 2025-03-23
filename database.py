@@ -39,7 +39,31 @@ class VoiceCardDB:
     def delete_voice_card(self, card_id):
         with self.conn:
             self.conn.execute("DELETE FROM voice_cards WHERE id=?", (card_id,))
+    def get_voice_card(self, card_id):
+        """根据ID获取单个语音卡的完整数据"""
+        try:
+            cursor = self.conn.cursor()
+            cursor.execute('''
+                SELECT id, name, audio_path, mfcc_features, 
+                       base_freq, formants 
+                FROM voice_cards 
+                WHERE id=?
+            ''', (card_id,))
             
+            row = cursor.fetchone()
+            if row:
+                return {
+                    'id': row[0],
+                    'name': row[1],
+                    'audio_path': row[2],
+                    'mfcc_features': np.array(json.loads(row[3])), 
+                    'base_freq': row[4],
+                    'formants': json.loads(row[5])  # 转换JSON字符串为列表
+                }
+            return None
+        except sqlite3.Error as e:
+            print(f"Database error: {e}")
+            return None        
 
     def get_all_voice_cards(self):
         cursor = self.conn.cursor()
