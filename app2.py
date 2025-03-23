@@ -9,8 +9,8 @@ import noisereduce as nr  # 需要单独安装的降噪库
 # --------------------------
 def load_audio(path, sr=16000):
     """加载音频并统一采样率"""
-    current_recording_path = f'recordings/吃饭.wav'
-    y, _ = librosa.load(current_recording_path, sr=sr)
+    
+    y, _ = librosa.load(path, sr=sr)
     return y
 
 # --------------------------
@@ -32,7 +32,19 @@ def reduce_noise(y, sr=16000, noise_start=0, noise_end=0.5):
         sr=sr,
         stationary=True  # 假设噪声是稳态的
     )
-    return y_clean
+
+    # 提取噪声样本
+    noise_clip = y[len(y)-int(noise_end*sr):]
+    
+    # 使用noisereduce库降噪
+    y_clean2 = nr.reduce_noise(
+        y=y_clean, 
+        y_noise=noise_clip,
+        sr=sr,
+        stationary=True  # 假设噪声是稳态的
+    )
+
+    return y_clean2
 
 # --------------------------
 # 步骤3：静音检测 (基于能量阈值)
@@ -91,12 +103,24 @@ def plot_audio(y, y_clean, non_silent, sr=16000):
     plt.tight_layout()
     plt.show()
 
+def clean_audio(y, top_db=25):
+    # 降噪处理
+    y_clean = reduce_noise(y)
+    
+    # 静音检测
+    non_silent = detect_silence(y_clean, top_db=top_db)
+    
+    # 提取有效音频段
+    valid_audio = np.concatenate([y_clean[start:end] for start, end in non_silent])
+
+    return valid_audio
+
 # --------------------------
 # 主程序
 # --------------------------
 if __name__ == "__main__":
     # 加载音频
-    audio_path = "test_audio.wav"
+    audio_path = 'recordings/饮茶.wav'
     y = load_audio(audio_path)
     
     # 降噪处理
