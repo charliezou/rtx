@@ -120,7 +120,7 @@ def clean_audio(y, top_db=25):
 # --------------------------
 if __name__ == "__main__":
     # 加载音频
-    audio_path = 'recordings/饮茶.wav'
+    audio_path = 'recordings/睡觉3.wav'
     y = load_audio(audio_path)
     
     # 降噪处理
