@@ -334,15 +334,8 @@ def step6_formant_correction_2(audio, params):
     
     return enhanced_audio
 
-def evaluate_enhancement(original, enhanced):
-    return {
-        'snr_improvement': 1.2,
-        'pesq': 0.5,
-        'stoi': 1.4,
-        'f0_stability_improvement': 1.6
-    }
 
-def evaluate_enhancement_2(original, enhanced):
+def evaluate_enhancement(original, enhanced):
     """评估语音增强质量"""
     # 确保长度相同
     print("111111111111")
@@ -358,10 +351,7 @@ def evaluate_enhancement_2(original, enhanced):
 
     print(f"SNR提升: {snr_improvement:.2f} dB")
 
-    
-    # 计算PESQ (语音质量感知评估)
-    pesq_score = pesq(original, enhanced, SAMPLE_RATE)
-    print(f"PESQ: {pesq_score:.2f}")
+
 
 
     # 计算STOI (语音可懂度评估)
@@ -384,6 +374,12 @@ def evaluate_enhancement_2(original, enhanced):
         f0_stability_improvement = (f0_std_orig - f0_std_enh) / f0_std_orig * 100
     else:
         f0_stability_improvement = 0
+
+    print(f"基频稳定性提升: {f0_stability_improvement:.2f}%")
+        
+    # 计算PESQ (语音质量感知评估)
+    pesq_score = pesq(original, enhanced, SAMPLE_RATE)
+    print(f"PESQ: {pesq_score:.2f}")
     
     return {
         'snr_improvement': snr_improvement,
