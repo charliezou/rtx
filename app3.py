@@ -5,8 +5,6 @@ from fastdtw import fastdtw
 from scipy.spatial.distance import euclidean
 import matplotlib.pyplot as plt
 import noisereduce as nr
-from demucs import pretrained
-from demucs.apply import apply_model
 import torch
 import torchaudio
 
@@ -158,9 +156,9 @@ def plot_audio(y1, y2,y3, y1_clean, y2_clean, y3_clean, similarity1_2, similarit
 # --------------------------
 if __name__ == "__main__":
     # 加载音频
-    y1 = load_audio('recordings/饮水1.wav')
-    y2 = load_audio('recordings/饮水2.wav')
-    y3 = load_audio('recordings/吃饭.wav')
+    y1 = load_audio('recordings/睡觉.wav')
+    y2 = load_audio('recordings/睡觉2.wav')
+    y3 = load_audio('recordings/睡觉3.wav')
 
     # 降噪处理
     y1_clean = clean_audio(y1,25)
