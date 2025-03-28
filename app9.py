@@ -44,6 +44,8 @@ class PathologicalVoiceEnhancer:
         # 输入: (1, samples) 波形数据
         # 特征提取
         f0 = self._extract_f0(input_wave)
+        print("f0 shape",f0.numpy().shape)
+        print ("f0",f0.numpy())
         
         # 基频处理流程
         #if f0.std() > 50:  # 抖动过大时启用预测

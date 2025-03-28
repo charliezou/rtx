@@ -18,7 +18,7 @@ DISEASE_TYPE = "dysarthria"  # 可选项: "dysarthria", "apraxia", "spasmodic"
 SAMPLE_RATE = 16000
 FRAME_LENGTH = 512
 HOP_LENGTH = 128
-THRESHOLD_DB = -40  # 静音检测阈值
+THRESHOLD_DB = 25  # 静音检测阈值
 
 def load_audio(file_path):
     """加载音频文件"""
@@ -457,7 +457,7 @@ def main(input_file, output_file):
     return evaluation
 
 if __name__ == "__main__":
-    input_file = "recordings/睡觉3.wav"  # 替换为你的输入文件
+    input_file = "recordings/睡觉.wav"  # 替换为你的输入文件
     output_file = "enhanced_speech.wav"
     
     print(f"Processing {input_file} for {DISEASE_TYPE}...")
