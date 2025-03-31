@@ -50,7 +50,7 @@ class MainWindow(QMainWindow):
         main_widget = QWidget()
         main_widget.setObjectName('MainWidget')
         # 加载样式表
-        with open('styles.qss', 'r') as f:
+        with open('styles.qss', 'r', encoding='utf-8') as f
             self.setStyleSheet(f.read())
         self.setCentralWidget(main_widget)
         

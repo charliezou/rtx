@@ -6,7 +6,6 @@ import noisereduce as nr
 from fastdtw import fastdtw
 from scipy.spatial.distance import euclidean
 import soundfile as sf
-from dtw import dtw
 
 
 def load_audio(path, sr=16000):
@@ -128,7 +127,7 @@ def calculate_similarity(mfcc1, mfcc2):
 # 主程序
 # --------------------------
 if __name__ == "__main__":
-    yuyins = ['饮水1','吃饭', '吃饭2','喝茶','饮茶','饮水2','吃饭3']
+    yuyins = ['吃饭', '吃饭3','吃水果','饮茶','饮水','饮茶2','吃水果2','吃水蛋','睡觉','睡觉2','睡觉3']
     mfccs = []
 
     for yuyin in yuyins:

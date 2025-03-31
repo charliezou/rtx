@@ -52,6 +52,9 @@ def find_peaks_in_envelope(envelope, sr, prominence=0.1, distance=100):
     """
     peaks, properties = find_peaks(
         envelope,
+        #width=100,
+        #height=0.25,
+        #threshold=0.2,
         prominence=prominence,
         distance=distance
     )
@@ -117,21 +120,21 @@ def main(input_file):
 
     
     # 3. 检测包络波峰
-    peaks, properties = find_peaks_in_envelope(envelope, sr, prominence=0.3, distance=int(0.2*sr))
+    peaks, properties = find_peaks_in_envelope(envelope, sr, prominence=0.3, distance=int(0.15*sr))
 
     print(peaks)
     print(properties)
-    
-    # 4. 绘制结果
-    plot_envelope_with_peaks(audio, sr, envelope, peaks)
-    
-    # 5. 分析波峰特征
+
+    # 4. 分析波峰特征
     analyze_envelope_peaks(envelope, sr, peaks, properties)
     
+    # 5. 绘制结果
+    plot_envelope_with_peaks(audio, sr, envelope, peaks)
+       
     return len(peaks)
 
 if __name__ == "__main__":
-    input_file = "recordings/吃水果.wav"  # 替换为你的音频文件
+    input_file = "recordings/clean_睡觉3.wav"  # 替换为你的音频文件
     
     print("开始包络线波峰检测分析...")
     peak_count = main(input_file)

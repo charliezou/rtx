@@ -151,7 +151,7 @@ def main(input_file, output_file):
     return 1
 
 if __name__ == "__main__":
-    input_file = "recordings/clean_吃饭2.wav"  # 替换为你的输入文件
+    input_file = "recordings/clean_睡觉3.wav"  # 替换为你的输入文件
     output_file = "adjusted_speech.wav"
     
     print("开始处理构音障碍患者语速调整...")
