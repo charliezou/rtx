@@ -129,14 +129,18 @@ def evaluate_speech_rate(audio_before, audio_after, sr=16000):
     
     return improvement
 
-def main(input_file, output_file):
-    """主处理函数"""
+
+if __name__ == "__main__":
+    input_file = "recordings/clean_睡觉3.wav"  # 替换为你的输入文件
+    output_file = "adjusted_speech.wav"
+    
+    print("开始处理构音障碍患者语速调整...")
     # 1. 加载音频
     audio, sr = load_audio(input_file)
     print(f"加载音频: {input_file}, 时长: {len(audio)/sr:.2f}秒")
     
     # 2. 显示原始波形
-    #plot_waveform(audio, "原始语音波形")
+    plot_waveform(audio, "原始语音波形")
     
     # 3. 智能调整语速
     scaled_audio = dynamic_time_scaling(audio, sr, target_rate=3.0)
@@ -146,20 +150,11 @@ def main(input_file, output_file):
     print(f"结果已保存到: {output_file}")
     
     # 5. 评估效果
-    #improvement = evaluate_speech_rate(audio, scaled_audio, sr)
-    
-    return 1
+    improvement = evaluate_speech_rate(audio, scaled_audio, sr)
 
-if __name__ == "__main__":
-    input_file = "recordings/clean_睡觉3.wav"  # 替换为你的输入文件
-    output_file = "adjusted_speech.wav"
-    
-    print("开始处理构音障碍患者语速调整...")
-    improvement = main(input_file, output_file)
     
     if improvement > 0:
         print(f"成功提升语速 {improvement:.1f}%")
     else:
         print("语速已在正常范围内，无需显著调整")
 
-        
