@@ -119,7 +119,7 @@ def formant_enhancement(audio, sr, nasal_regions, boost_strength=1.5):
     """增强非鼻音区域的共振峰"""
     snd = parselmouth.Sound(audio, sampling_frequency=sr)
     enhanced_audio = np.zeros_like(audio)
-    frame_size = int(0.02 * sr)  # 20ms帧
+    frame_size = int(0.1 * sr)  # 20ms帧
     hop_size = frame_size // 2
     
     for i in range(0, len(audio) - frame_size, hop_size):
@@ -210,8 +210,9 @@ def main(input_file, output_file):
     return enhanced_audio, nasal_reduction, hnr_improvement
 
 if __name__ == "__main__":
-    input_file = "nasal_speech.wav"  # 替换为你的输入文件
-    output_file = "enhanced_speech.wav"
+    yuyin = "睡觉2"
+    input_file = f"recordings/clean_{yuyin}.wav"  # 替换为你的音频文件
+    output_file = f"recordings/enhanced14_{yuyin}.wav"
     
     print("开始处理鼻音过重问题...")
     enhanced_audio, nasal_reduction, hnr_improvement = main(input_file, output_file)

@@ -81,7 +81,7 @@ def find_peaks_in_envelope(envelope, sr, prominence=0.1, distance=100, low_rate=
         peaks = peaks[keep]
         properties = {k: v[keep] for k, v in properties.items()}
     
-    troughs = [np.argmin(envelope[peaks[i-1]:peaks[i]]) + peaks[i-1] for i in range(1, len(peaks))]
+    troughs = np.asarray([np.argmin(envelope[peaks[i-1]:peaks[i]]) + peaks[i-1] for i in range(1, len(peaks))])
     left_waves = np.append(np.asarray([0]), troughs+1)
     right_waves = np.append(troughs, np.asarray([len(envelope)-1]))
     properties["left_waves"] = left_waves
@@ -221,5 +221,5 @@ def main(input_file, output_file="adjusted_speech.wav"):
 if __name__ == "__main__":
     yuyin = "睡觉2"
     input_file = f"recordings/clean_{yuyin}.wav"  # 替换为你的音频文件
-    output_file = f"recordings/adjusted_{yuyin}.wav"
+    output_file = f"recordings/adjusted13_{yuyin}.wav"
     main(input_file, output_file)
