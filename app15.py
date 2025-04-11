@@ -240,9 +240,9 @@ def main(input_file, output_file):
 
 
 if __name__ == "__main__":
-    yuyin = "睡觉2"
-    input_file = f"recordings/clean_{yuyin}.wav"  # 替换为你的音频文件
-    output_file = "enhanced_speech.wav"
+    yuyin = "上厕所99"
+    input_file = f"recordings/{yuyin}.wav"  # 替换为你的音频文件
+    output_file = f"recordings/enhanced15_{yuyin}.wav"
     
     print("开始共振峰增强处理...")
     enhanced_audio = main(input_file, output_file)

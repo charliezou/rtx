@@ -210,8 +210,8 @@ def main(input_file, output_file):
     return enhanced_audio, nasal_reduction, hnr_improvement
 
 if __name__ == "__main__":
-    yuyin = "睡觉2"
-    input_file = f"recordings/clean_{yuyin}.wav"  # 替换为你的音频文件
+    yuyin = "上厕所99"
+    input_file = f"recordings/{yuyin}.wav"  # 替换为你的音频文件
     output_file = f"recordings/enhanced14_{yuyin}.wav"
     
     print("开始处理鼻音过重问题...")

@@ -219,7 +219,7 @@ def main(input_file, output_file="adjusted_speech.wav"):
 
 
 if __name__ == "__main__":
-    yuyin = "睡觉2"
-    input_file = f"recordings/clean_{yuyin}.wav"  # 替换为你的音频文件
+    yuyin = "上厕所99"
+    input_file = f"recordings/{yuyin}.wav"  # 替换为你的音频文件
     output_file = f"recordings/adjusted13_{yuyin}.wav"
     main(input_file, output_file)

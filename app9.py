@@ -44,8 +44,8 @@ class PathologicalVoiceEnhancer:
         # 输入: (1, samples) 波形数据
         # 特征提取
         f0 = self._extract_f0(input_wave)
-        print("f0 shape",f0.numpy().shape)
-        print ("f0",f0.numpy())
+        #print("f0 shape",f0.numpy().shape)
+        #print ("f0",f0.numpy())
         
         # 基频处理流程
         #if f0.std() > 50:  # 抖动过大时启用预测
@@ -53,11 +53,11 @@ class PathologicalVoiceEnhancer:
         if np.nanmax(f0.numpy()) - np.nanmin(f0.numpy()) > 10:  # 范围过宽时压缩
             f0 = self._dynamic_range_compression(f0)
 
-        print(f0)
+        #print(f0)
 
         # 基频平滑
         pitch_shift = self._calc_pitch_shift(f0)
-        print(pitch_shift)
+        #print(pitch_shift)
         
         # 语音重构（PSOLA算法简化版）
         enhanced = torchaudio.functional.pitch_shift(
@@ -107,18 +107,20 @@ class PathologicalVoiceEnhancer:
 
 if __name__ == "__main__":
  
-    audio_path = 'recordings/睡觉3.wav'
+    yuyin = "上厕所99"
+    input_file = f"recordings/{yuyin}.wav"  # 替换为你的音频文件
+    output_file = f"recordings/enhanced9_{yuyin}.wav"
 
     # 加载音频文件
-    original, sr = torchaudio.load(audio_path)
+    original, sr = torchaudio.load(input_file)
 
-    enhancer = PathologicalVoiceEnhancer()
+    enhancer = PathologicalVoiceEnhancer(sr=sr)
     # 音频增强
     enhanced = enhancer.process_audio(original)
     # 评估增强效果
-    metrics = enhancer.evaluate_enhancement(original, enhanced)
-    print(metrics)
+    #metrics = enhancer.evaluate_enhancement(original, enhanced)
+    #print(metrics)
 
     # 保存结果
-    torchaudio.save("enhanced_audio.wav", enhanced, enhancer.sr)
+    torchaudio.save(output_file, enhanced, enhancer.sr)
 
